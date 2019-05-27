@@ -1,5 +1,5 @@
 {
-  "name": "calendar-api",
+  "name": "api_calendar_and_reminders",
   "version": "1.0.0",
   "description": "First Api-Rest for the Calendar and Reminders project.",
   "main": "index.js",

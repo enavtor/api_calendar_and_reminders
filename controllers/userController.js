@@ -4,7 +4,6 @@ const user = require('../models/userModel');
 
 exports.postUser = function(req, res) {
     var userJson = req.body;
-
     user.create(userJson, (err) => {
         if(err) res.send(err);
         else res.json({ message: 'User ' + userJson.nickname + ' created'});

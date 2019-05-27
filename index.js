@@ -1,7 +1,7 @@
 'use strict'
 
 const mongoose = require('mongoose');
-const app = require('./app');
+const app = require('./app').default;
 
 const databasePort = 27017;
 const serverPort = 3000;
