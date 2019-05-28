@@ -1,25 +1,26 @@
 'use strict'
 
-const user = require('../models/userModel');
-
-exports.postUser = function(req, res) {
-    var userJson = req.body;
-    user.create(userJson, (err) => {
-        if(err) res.send(err);
-        else res.json({ message: 'User ' + userJson.nickname + ' created'});
-    });
-}
+const userModel = require('../models/userModel');
 
 exports.getUser = function(req, res) {
-    user.find((err, users) => {
+    userModel.find((err, users) => {
         if(err) res.send(err);
         else res.json(users);
     });
 }
 
+exports.postUser = function(req, res) {
+    var userJson = req.body;
+    userModel.create(userJson, (err) => {
+        if(err) res.send(err);
+        else res.json({ message: 'User ' + userJson.nickname + ' created'});
+    });
+}
+
 exports.deleteUser = function(req, res) { 
-    user.deleteOne({nickname: req.params.nickname}, (err) => {
+    var userNickname = req.params.nickname;
+    userModel.deleteOne({nickname: userNickname}, (err) => {
           if (err) res.send(err);
-          else res.json({ message: 'User ' + req.params.nickname + ' deleted'});
+          else res.json({ message: 'User ' + userNickname + ' deleted'});
     });
 }

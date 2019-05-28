@@ -5,6 +5,7 @@ const schema = mongoose.Schema;
 
 const eventSchema = schema({
     eventId: Number,
+    userId: Number,
     eventType: String,
     eventText: String,
     eventStartDate: Number,

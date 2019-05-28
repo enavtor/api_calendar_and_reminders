@@ -12,6 +12,6 @@ app.use(bodyparser.urlencoded({ extended : true }));
 app.use(bodyparser.json());
 
 app.use('/user', userRoutes);
-app.use('evet', eventRoutes);
+app.use('/event', eventRoutes);
 
 module.exports = app;
