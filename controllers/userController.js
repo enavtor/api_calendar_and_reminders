@@ -3,6 +3,8 @@
 
 //The controller is going to need the database user model:
 const userModel = require('../models/userModel');
+//The controller is also going to need the event model when deleting a user:
+const eventModel = require('../models/eventModel');
 
 //Test function that will be deleted in the future:
 exports.getAllUsers = function(req, res) {
@@ -46,9 +48,16 @@ exports.postUser = function(req, res) {
 //Definition of DELETE operation for the user model:
 exports.deleteUser = function(req, res) { 
     //The user is deleted by his/her nickname:
-    var userNickname = req.body.nickname;
-    userModel.deleteOne({nickname: userNickname}, (err) => {
-          if (err) res.send(err);
-          else res.json({ message: 'User ' + userNickname + ' deleted'});
-    });
+    var nickname = req.body.nickname;
+    //Before deleting the user, all his/her events are deleted:
+    eventModel.deleteMany({userNickname: nickname},  (err) => {
+        if (err) res.send(err);
+        //Once the user events habe been succesfully deleted, the user is deleted too:
+        else {
+            userModel.deleteOne({nickname: nickname}, (err) => {
+                if (err) res.send(err);
+                else res.json({ message: 'User ' + nickname + ' deleted'});
+          });
+        }
+  }); 
 }

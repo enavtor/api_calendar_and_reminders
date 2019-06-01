@@ -7,8 +7,8 @@ const userController = require('../controllers/userController');
 
 const userRoute = express.Router();
 
-//Each operation route is specified along with the controller's function that defines its functionality:userRoute.get('/:nickname/:password', userController.getUser);
-userRoute.get('/', userController.getAllUsers);
+//Each operation route is specified along with the controller's function that defines its functionality:
+userRoute.get('/all', userController.getAllUsers);
 userRoute.get('/:nickname/:password', userController.getUser);
 userRoute.post('/', userController.postUser);
 userRoute.delete('/', userController.deleteUser);
