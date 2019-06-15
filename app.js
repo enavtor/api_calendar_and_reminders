@@ -9,7 +9,7 @@ const bodyparser = require('body-parser');
 const userRoutes = require('./routes/userRoute');
 const eventRoutes = require('./routes/eventRoute');
 
-//The express application is created (application that contains the server fucntionalities) and initilized:
+//The express application is created (application that contains the server fucntionalities) and initialized:
 const app = express();
 
 app.use(bodyparser.urlencoded({ extended : true }));

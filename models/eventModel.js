@@ -8,7 +8,7 @@ const schema = mongoose.Schema;
 //First the event's model structure is defined as a JSON:
 const eventSchema = schema({
     eventId: Number,
-    userNickname: String,
+    userId: String,
     eventType: String,
     eventText: String,
     eventStartDate: Number,

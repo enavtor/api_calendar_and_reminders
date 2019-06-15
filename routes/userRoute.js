@@ -11,6 +11,7 @@ const userRoute = express.Router();
 userRoute.get('/all', userController.getAllUsers);
 userRoute.get('/:nickname/:password', userController.getUser);
 userRoute.post('/', userController.postUser);
+userRoute.put('/', userController.putUser);
 userRoute.delete('/', userController.deleteUser);
 
 //Now the user route is exported so the app module can use it:

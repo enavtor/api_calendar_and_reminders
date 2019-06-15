@@ -30,33 +30,50 @@ exports.getUser = function(req, res) {
 exports.postUser = function(req, res) {
     //First of all the user json is retrieved from the request body:
     var userJson = req.body;
+    var reqUserNick = userJson.nickname;
     //Before creating a new user, it is necesary to check if its nickname already exist:
-    userModel.findOne({nickname: userJson.nickname}, (err, user) => {
+    userModel.findOne({nickname: reqUserNick}, (err, user) => {
         if(err) res.send(err);
         //If the new nickname is not found, the user is created:
         else if(user == null) {
             userModel.create(userJson, (err) => {
                 if(err) res.send(err);
-                else res.json({ message: 'User ' + userJson.nickname + ' created'});
+                else res.json({ message: 'User ' + reqUserNick + ' created'});
             });
         }
         //Otherwise, if the user exists, a message indicating that the nickname is in use is returned:
-        else res.json({ message: 'Nickname ' + userJson.nickname + ' already exists!!!'});
+        else res.json({ message: 'Nickname ' + reqUserNick + ' already exists!!!'});
+    });
+}
+
+//Definition of PUT operation for the user model:
+exports.putUser = function(req, res) {
+    //The user json and his/her id are retrieved from  the request body 
+    //(the nickname is also retrieved in order to form the update message):
+    var userJson = req.body;
+    var reqUserId = userJson._id;
+    var reqUserNick = userJson.nickname;
+    //The user whose id matches the request's one is updated:
+    userModel.updateOne({_id: reqUserId}, userJson, (err, raw) => {
+        if(err) res.send(err);
+        else res.json({ message: 'User ' + reqUserNick + ' updated' });
     });
 }
 
 //Definition of DELETE operation for the user model:
 exports.deleteUser = function(req, res) { 
-    //The user is deleted by his/her nickname:
-    var nickname = req.body.nickname;
+    //The user is deleted by his/her id:
+    var userJson = req.body;
+    var reqUserId = userJson._id;
+    var reqUserNick = userJson.nickname;
     //Before deleting the user, all his/her events are deleted:
-    eventModel.deleteMany({userNickname: nickname},  (err) => {
+    eventModel.deleteMany({userId: reqUserId},  (err) => {
         if (err) res.send(err);
         //Once the user events habe been succesfully deleted, the user is deleted too:
         else {
-            userModel.deleteOne({nickname: nickname}, (err) => {
+            userModel.deleteOne({_id: reqUserId}, (err) => {
                 if (err) res.send(err);
-                else res.json({ message: 'User ' + nickname + ' deleted'});
+                else res.json({ message: 'User ' + reqUserNick + ' deleted'});
           });
         }
   }); 

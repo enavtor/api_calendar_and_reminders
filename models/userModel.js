@@ -8,6 +8,8 @@ const schema = mongoose.Schema;
 //First the user's model structure is defined as a JSON:
 const userSchema = schema({
     name: String,
+    surname: String,
+    avatar: String,
     nickname: String,
     password: String
 });

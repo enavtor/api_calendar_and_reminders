@@ -9,7 +9,7 @@ const eventRute = express.Router();
 
 //Each operation route is specified along with the controller's function that defines its functionality:
 eventRute.get('/all', eventController.getAllEvents);
-eventRute.get('/:userNickname', eventController.getEvents);
+eventRute.get('/:userId', eventController.getEvents);
 eventRute.post('/', eventController.postEvent);
 eventRute.put('/', eventController.putEvent);
 eventRute.delete('/', eventController.deleteEvent);
