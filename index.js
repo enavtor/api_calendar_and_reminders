@@ -15,22 +15,21 @@ const databasePort = 27017;
 const serverPort = 3000;
 const url = 'mongodb://localhost:' + databasePort + '/usersDB';
 
-//Before the server is started, the public subdomain 'droidmare-api' is asigned to localhost:
+ //Now the database connection is established, starting also the server if the mongoDB was succcesfully created:
+ mongoose.connect(url, { useNewUrlParser: true })
+ .then(() => {
+   console.log('Database initialized!');
+   app.listen(serverPort, () => {
+       console.log('Server listening on port ' + serverPort);
+   });
+ })
+ .catch(err =>  {
+   console.log(err);
+ });
+
+//After the server is started, the public subdomain 'droidmare-api' is asigned to localhost:
 localtunnel(serverPort, {subdomain: 'droidmare-api'}, (err, tunnel) => {
   //The server will be started only if the tunnel is successfully created:
   if (err) console.log('Could not create tunnel!');
-  else {
-    console.log('Tunnel successfully created. Public domain: ' + tunnel.url);
-    //Now the database connection is established, starting also the server if the mongoDB was succcesfully created:
-    mongoose.connect(url, { useNewUrlParser: true })
-    .then(() => {
-      console.log('Database initialized!');
-      app.listen(serverPort, () => {
-          console.log('Server listening on port ' + serverPort);
-      });
-    })
-    .catch(err =>  {
-      console.log(err);
-    });
-  }
+  else console.log('Tunnel successfully created. Public domain: ' + tunnel.url);
 });
