@@ -1,12 +1,17 @@
 {
   "name": "api_calendar_and_reminders",
-  "version": "1.0.0",
-  "description": "First Api-Rest for the Calendar and Reminders project.",
+  "version": "1.1.0",
+  "description": "Api-Rest for the Calendar and Reminders project",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "startDB": "mongod --dbpath=C:/Users/Eduardo/Documents/\"Visual Studio Code\"/api_calendar_and_reminders/database",
+    "startServer": "node index.js"
   },
-  "author": "Eduardo",
+  "repository": {
+    "type": "git",
+    "url": "http://git.shtvsolution.com/enavas/api_calendar_and_reminders.git"
+  },
+  "author": "Eduardo Navas",
   "license": "ISC",
   "dependencies": {
     "babel-eslint": "^10.0.1",
