@@ -16,6 +16,7 @@ const eventSchema = schema({
     eventRepInterval: Number,
     eventRepType: String,
     eventRepStopDate: Number,
+    eventLastUpdate: Number
 });
 
 //Now the model is exported so the corresponding controller can define the appropriate CRUD operations:
