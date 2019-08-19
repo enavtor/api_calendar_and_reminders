@@ -28,7 +28,7 @@ const url = 'mongodb://localhost:' + databasePort + '/usersDB';
  });
 
 //After the server is started, the public subdomain 'droidmare-api' is asigned to localhost:
-localtunnel(serverPort, {subdomain: 'droidmare-api'}, (err, tunnel) => {
+/*localtunnel(serverPort, {subdomain: 'droidmare-api'}, (err, tunnel) => {
   if (err) console.log('Could not create tunnel!');
   else console.log('Tunnel successfully created. Public domain: ' + tunnel.url);
-});
+});*/

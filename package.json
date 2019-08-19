@@ -1,6 +1,6 @@
 {
   "name": "api_calendar_and_reminders",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Api-Rest for the Calendar and Reminders project",
   "main": "index.js",
   "scripts": {

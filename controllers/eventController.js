@@ -29,14 +29,14 @@ exports.postEvent = function(req, res) {
     //The event json is retrieved from the request body so it can be saved in the database:
     var eventJson = req.body;
     eventJson.eventLastUpdate = currentDate;
-    eventModel.create(eventJson, (err) => {
+    eventModel.create(eventJson, (err, newEvent) => {
         if (err) res.send(err);
         else {
-            const responseJson = {
-                message: 'Event ' + eventJson.eventId + ' created',
-                lastUpdate: currentDate
-            };
-            res.json(responseJson);
+            //If the event is successfully saved, its field eventId is overwritten with the id assigned by mongo:
+            var localId = eventJson.eventId;
+            eventJson.eventId = newEvent._id;
+            const responseMessage = 'Event ' + localId + ' created';
+            updateEvent(localId, eventJson.userId, eventJson, responseMessage, res);
         }
     });
 }
@@ -51,16 +51,8 @@ exports.putEvent = function(req, res) {
     var reqUserId = eventJson.userId;
     eventJson.eventLastUpdate = currentDate;
     //The event whose id and user matches the request's ones is updated:
-    eventModel.updateOne({eventId: reqEventId, userId: reqUserId}, eventJson, (err, raw) => {
-        if(err) res.send(err);
-        else {
-            const responseJson = {
-                message: 'Event ' + reqEventId + ' updated',
-                lastUpdate: currentDate
-            };
-            res.json(responseJson);
-        }
-    });
+    const responseMessage = 'Event ' + reqEventId + ' updated';
+    updateEvent(reqEventId, reqUserId, eventJson, responseMessage, res);
 }
 
 //Definition of DELETE operation for the event model:
@@ -80,4 +72,28 @@ exports.deleteEvent = function(req, res) {
 const getCurrentDate = function() {
     var currentDate = new Date();
     return currentDate.getTime();
+}
+
+//Method that encapsulates the functionality to update an event:
+const updateEvent = function(reqEventId, reqUserId, eventJson, message, response) {
+    var responseJson;
+    //The params to identify the event that wil be updated include the event's and user's ids:
+    var queryParams = {
+        eventId: reqEventId, 
+        userId: reqUserId
+    };
+    //The event will be updated, returning a specific response depending on the opertion success:
+    eventModel.updateOne(queryParams, eventJson, (err) => {
+        if(err) responseJson = {error: err};
+        else {
+            responseJson = {
+                message: message,
+                eventId: eventJson.eventId,
+                eventLastUpdate: eventJson.eventLastUpdate
+            };
+        }
+        //Since updateOne is an asynchronous function, the response must be sent 
+        //from the callback, and not from the function that invoked this method:
+        response.json(responseJson);
+    });
 }
