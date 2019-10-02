@@ -4,12 +4,12 @@
   "description": "Api-Rest for the Calendar and Reminders project",
   "main": "index.js",
   "scripts": {
-    "startDB": "mongod --dbpath=C:/Users/Eduardo/Documents/\"Visual Studio Code\"/api_calendar_and_reminders/database",
+    "startDB": "mongod --dbpath=./database",
     "startServer": "node index.js"
   },
   "repository": {
     "type": "git",
-    "url": "http://git.shtvsolution.com/enavas/api_calendar_and_reminders.git"
+    "url": "https://github.com/enavtor/api_calendar_and_reminders.git"
   },
   "author": "Eduardo Navas",
   "license": "ISC",
