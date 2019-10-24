@@ -22,7 +22,10 @@ exports.getUser = function(req, res) {
     //Now the user is sought and returned if found:
     userModel.findOne({nickname: reqUserNickname, password: reqUserPassword}, (err, user) => {
         if(err) res.send(err);
-        else res.json(user);
+        else{
+            const responseCode = user? 200: 500;
+            res.status(responseCode).json(user);
+        }
     });
 }
 
@@ -38,11 +41,11 @@ exports.postUser = function(req, res) {
         else if(!user) {
             userModel.create(userJson, (err) => {
                 if(err) res.send(err);
-                else res.json({ message: 'User ' + reqUserNick + ' created'});
+                else res.json(getResponseJson('User ' + reqUserNick + ' created', true));
             });
         }
         //Otherwise, if the user exists, a message indicating that the nickname is in use is returned:
-        else res.json({ message: 'Nickname ' + reqUserNick + ' already exists!!!'});
+        else res.json(getResponseJson('Nickname ' + reqUserNick + ' already exists!!!', false));
     });
 }
 
@@ -60,15 +63,14 @@ exports.putUser = function(req, res) {
         else {
             //Since javaScript fully evaluates the conditions, it is necesary to proceed as follows:
             var auxUser = user || {_id: reqUserId};
-            console.log(JSON.stringify(auxUser) + ' - ' + auxUser._id + ' - ' + reqUserId)
             if(auxUser._id == reqUserId) {
                 userModel.updateOne({_id: reqUserId}, userJson, (err, raw) => {
                     if(err) res.send(err);
-                    else res.json({ message: 'User ' + reqUserNick + ' updated' });
+                    else res.json(getResponseJson('User ' + reqUserNick + ' updated', true));
                 });
             }
             //Otherwise, if the user exists, a message indicating that the nickname is in use is returned:
-            else res.json({ message: 'Nickname ' + reqUserNick + ' already exists!!!'});
+            else res.json(getResponseJson('Nickname ' + reqUserNick + ' already exists!!!', false));
         }
     });
 }
@@ -86,8 +88,16 @@ exports.deleteUser = function(req, res) {
         else {
             userModel.deleteOne({_id: reqUserId}, (err) => {
                 if (err) res.send(err);
-                else res.json({ message: 'User ' + reqUserNick + ' deleted'});
+                else res.json(getResponseJson('User ' + reqUserNick + ' deleted', true));
           });
         }
   }); 
+}
+
+//Method that generates a response json based on the parameters values:
+const getResponseJson = (resMessage, resSuccess) => {
+    return { 
+        message: resMessage,
+        success: resSuccess
+    };
 }
