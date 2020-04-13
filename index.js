@@ -1,9 +1,6 @@
 //Strict mode ensures that sintax errors won't be allowed:
 'use strict'
 
-//The node localtunnel module is imported in order to assign a public subdomain to localhost:3000:
-const localtunnel = require('localtunnel');
-
 //The node mongoose module is imported so mongoDB can be used:
 const mongoose = require('mongoose');
 
@@ -26,9 +23,3 @@ const url = 'mongodb://localhost:' + databasePort + '/usersDB';
  .catch(err =>  {
    console.log(err);
  });
-
-//After the server is started, the public subdomain 'droidmare-api' is asigned to localhost:
-/*localtunnel(serverPort, {subdomain: 'droidmare-api'}, (err, tunnel) => {
-  if (err) console.log('Could not create tunnel!');
-  else console.log('Tunnel successfully created. Public domain: ' + tunnel.url);
-});*/

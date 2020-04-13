@@ -6,7 +6,7 @@ const userModel = require('../models/userModel');
 //The controller is also going to need the event model when deleting a user:
 const eventModel = require('../models/eventModel');
 
-//Test function that will be deleted in the future:
+//Test function:
 exports.getAllUsers = function(req, res) {
     userModel.find((err, users) => {
         if(err) res.send(err);
@@ -59,9 +59,8 @@ exports.putUser = function(req, res) {
     //Before updating a user, it is necesary to check if the received nickname exists on other user (in case the nickname was updated):
     userModel.findOne({nickname: reqUserNick}, (err, user) => {
         if(err) res.send(err);
-        //If the new nickname is not found or is the user's current one, the user is updated:
+        //If the new nickname is not found or if it is the user's current one, the user is updated:
         else {
-            //Since javaScript fully evaluates the conditions, it is necesary to proceed as follows:
             var auxUser = user || {_id: reqUserId};
             if(auxUser._id == reqUserId) {
                 userModel.updateOne({_id: reqUserId}, userJson, (err, raw) => {

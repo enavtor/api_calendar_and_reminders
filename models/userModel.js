@@ -9,7 +9,7 @@ const schema = mongoose.Schema;
 const userSchema = schema({
     name: String,
     surname: String,
-    avatar: String,
+    avatar: Array,
     nickname: String,
     password: String
 });

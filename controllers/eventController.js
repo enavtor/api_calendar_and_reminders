@@ -4,7 +4,7 @@
 //The controller is going to need the database event model:
 const eventModel = require('../models/eventModel');
 
-//Test function that will be deleted in the future:
+//Test function:
 exports.getAllEvents = function(req, res) {
     eventModel.find((err, events) => {
         if(err) res.send(err);
